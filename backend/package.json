@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "un serveur backend qui va gerer les esp8266 et envoyer les donnees dans une base de donnees et egalement les transmetres au front ",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Louis",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.7.0",
+    "nodemon": "^3.1.7",
+    "socket.io": "^4.8.0"
+  }
+}
