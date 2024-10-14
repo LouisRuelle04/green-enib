@@ -17,22 +17,22 @@ function HomePage(props) {
 
   return (
     <>
-    <Container maxWidth='xl' sx={{mt:6}}>
-    <Grid2 container spacing={6}>
-      {
-        capteurs.map((capteur) =>(
-          <Grid2 display={'flex'} size={{xs:12, md:3}}>
+      <Container maxWidth='xl' sx={{ mt: 6 }}>
+        <Grid2 container spacing={6}>
+          {
+            capteurs.map((capteur) => (
+              <Grid2 display={'flex'} size={{ xs: 12, md: 3 }}>
 
-              <Cards data={capteur} onCardClick={props.onCardClick}></Cards>
-            
-          </Grid2>
-        ))
-      }
-      </Grid2>
-    </Container>
-    
+                <Cards data={capteur} onCardClick={props.onCardClick}></Cards>
+
+              </Grid2>
+            ))
+          }
+        </Grid2>
+      </Container>
+
     </>
-  
+
   );
 }
 

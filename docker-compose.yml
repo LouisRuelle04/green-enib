@@ -5,11 +5,12 @@ services:
     container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: sechoir
+      MYSQL_DATABASE: greenenib  # Nom de la base de données
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
     restart: always
 
   # Service Adminer pour gérer la base de données
@@ -20,6 +21,33 @@ services:
     restart: always
     ports:
       - "8090:8080"
+
+  frontend:
+    build:
+      context: ./frontend  # Chemin vers le répertoire contenant le Dockerfile du front
+      dockerfile: Dockerfile  # Nom explicite du Dockerfile, si nécessaire
+    container_name: frontend-app
+    ports:
+      - "80:80"  # Port exposé pour NGINX (HTTP)
+    environment:
+      - REACT_APP_WEBSOCKET_URL=ws://192.168.0.31:8080  # Connexion à la base de données MySQL
+    restart: always
+    depends_on:
+      - backend  # Démarre le backend avant le frontend
+
+  backend:
+    build:
+      context: ./backend  # Chemin vers le répertoire contenant le Dockerfile du back
+      dockerfile: Dockerfile  # Nom explicite du Dockerfile, si nécessaire
+    container_name: backend-app
+    ports:
+      - "8080:8080"  # Port exposé pour l'API backend
+      - "8081:8081"  # Port exposé pour l'API backend
+    environment:
+      - DATABASE_URL=mysql://root:root@db:3306/greenenib  # Connexion à la base de données MySQL
+    depends_on:
+      - db  # Démarre MySQL avant le backend
+    restart: always
 
 volumes:
   db_data:

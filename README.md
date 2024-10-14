@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+# 🌱 Plant Surveillance System 🌱
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
+Bienvenue dans l'application **Plant Surveillance System** ! Ce projet vous permet de surveiller à distance vos plantes grâce à des capteurs connectés (ESP8266). L'application offre une interface simple et intuitive pour afficher les données de vos plantes, telles que l'humidité du sol, la température, et l'humidité de l'air. Parfait pour tous les amoureux de plantes souhaitant s'assurer de la bonne santé de leur jardin, même à distance !
 
-In the project directory, you can run:
+### 🛠️ Technologies Utilisées
+- **React** : Pour l'interface utilisateur.
+- **Node.js** : Pour le back-end qui gère les communications entre les capteurs et l'application.
+- **ESP8266** : Pour les capteurs sans fil qui surveillent les plantes et envoient les données au serveur.
+  
+## 🐳 Installation via Docker Compose
 
-### `npm start`
+### Prérequis
+Avant de commencer, assurez-vous d'avoir installé [Docker](https://www.docker.com/get-started) et [Docker Compose](https://docs.docker.com/compose/install/) sur votre machine.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Étapes d'installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. **Clonez le dépôt** :
+   ```bash
+   git clone https://github.com/LouisRuelle04/green-enib.git
+   cd plant-surveillance-system
+2. Lancez les services avec Docker Compose :
+    ```bash
+    docker-compose up -d
 
-### `npm test`
+Cette commande va :
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Construire et lancer le front-end React.
+- Construire et lancer le back-end Node.js.
+- Construire et lancer la base de données.
 
-### `npm run build`
+3. Accédez à l'application :
+Une fois les conteneurs lancés, ouvrez votre navigateur à l'adresse suivante :
+    ```bash
+    http://localhost/
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. Configuration des Capteurs (ESP8266) :
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Suivez les instructions sur l'interface pour connecter les capteurs à votre réseau Wi-Fi.
+- Assurez-vous que les capteurs sont correctement configurés pour envoyer des données au back-end via HTTP.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 👩‍💻 Manuel Utilisateur
 
-### `npm run eject`
+### 🌿 Utilisation de l'Application
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Page d'accueil : 
+- Vous trouverez un tableau de bord qui affiche les plantes que vous surveillez, ainsi que leurs paramètres de santé actuels (température, humidité du sol, humidité de l'air).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Ajouter une nouvelle plante :
+- Cliquez sur le bouton "Ajouter une plante" et entrez les informations requises.
+- Associez les capteurs disponibles à cette nouvelle plante.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. Consultation des données :
+- Accédez aux données de chaque plante individuellement en cliquant sur son nom. Vous pourrez y voir les graphiques des données environnementales mesurées dans le temps.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. Alertes et Notifications :
+- Configurez des alertes pour recevoir des notifications lorsque l'humidité du sol ou la température dépasse des seuils critiques.
 
-## Learn More
+### 🚀 Fonctionnalités clés :
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Surveillance en temps réel : Les données sont actualisées régulièrement pour assurer un suivi précis de l'état de vos plantes.
+Interface intuitive : Simple à utiliser, même pour les non-experts.
+Multi-capteurs : Gérez plusieurs plantes avec des capteurs connectés.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🏗️ Architecture Logicielle
 
-### Code Splitting
+### 📦 Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+L'architecture du projet est divisée en trois grandes parties :
 
-### Analyzing the Bundle Size
+Front-End (React) :
+    Fournit l'interface utilisateur pour visualiser et interagir avec les données.
+    Récupère les données des plantes via des requêtes HTTP envoyées au back-end.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Back-End (Node.js) :
+    Gère les requêtes des capteurs (ESP8266).
+    Stocke les données dans une base de données et les envoie au front-end.
+    Gère les connexions et la configuration des capteurs.
 
-### Making a Progressive Web App
+ESP8266 (Capteurs) :
+    Les capteurs mesurent la température, l'humidité de l'air et du sol.
+    Envoient les données au back-end via une connexion Wi-Fi.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+MySQL (BDD) :
+    Les mesures sont enregistré dans la base de données. 
 
-### Advanced Configuration
+### 🛠️ Développement
+Variables d'environnement :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Voici quelques variables d'environnement que vous devrez peut-être configurer dans votre fichier docker-compose.yml
