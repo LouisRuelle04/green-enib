@@ -20,7 +20,7 @@ function App() {
 
 
   useEffect(() => {
-    const newSocket = io("ws://192.168.0.31:8080/"); 
+    const newSocket = io("ws://192.168.224.230:8080/"); 
 
     function onConnect() {
       setServeurStatus(true)
