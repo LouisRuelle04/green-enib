@@ -44,8 +44,7 @@ export default function MainAppBar(props) {
             <HomeIcon sx={{fontSize: matches ? 48 : 24}}/>
           </IconButton>
           <Typography onClick={() =>  {props.onTitleClick()}} variant="h6" component="div" sx={{ flexGrow: 1 , textAlign: 'center'}} fontFamily={'Bevan'} fontSize={matches ? 48 : 24}>
-          Wee(d)-Enib
-          </Typography>
+            Green-Enib          </Typography>
           <Box display={'flex'} justifyContent={'center'} alignItems={'center'}>
             <Typography variant="h6" component="div" fontFamily={'Barlow'}> Serveur :</Typography>
             <Brightness1Icon sx={{amt:1, marginLeft:1, color: props.serveurStatus ? "#1bff00" : "red"}}></Brightness1Icon>

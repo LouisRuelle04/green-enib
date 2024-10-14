@@ -46,14 +46,13 @@ function App() {
         )
       );
 
-      if (selectedPlant && selectedPlant.name === data.name) {
-        setSelectedPlant((prevPlant) => ({
-          ...prevPlant,
-          temperature: data.temperature,
-          humidity: data.humidity,
-          soilHumidity: data.soilHumidity,
-        }));
-      }
+      setSelectedPlant((prevPlant) => {
+        if (prevPlant && prevPlant.name === data.name) {
+          // Mettre à jour selectedPlant avec les nouvelles données
+          return { ...prevPlant, temperature: data.temperature, humidity: data.humidity, soilHumidity: data.soilHumidity };
+        }
+        return prevPlant;
+      });
     }
 
 
