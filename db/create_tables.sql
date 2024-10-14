@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS mesure (
     humidity FLOAT,                      -- Humidité mesurée
     soilHumidity FLOAT,                  -- Humidité du sol mesurée
     lumens FLOAT,                        -- Luminosité mesurée
+    dateMesure DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ipcapteur) REFERENCES capteurIp(id)  -- Contrainte de clé étrangère
 );

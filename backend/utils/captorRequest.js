@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 
 const fetchDataFromEndpoint = async (ip) => {
-    const url = `http://${ip}/data`; // Construire l'URL avec l'IP fournie
+    const url = `http://${ip}/data`; 
 
     try {
         const response = await fetch(url, { timeout: 5000 });
@@ -13,4 +13,4 @@ const fetchDataFromEndpoint = async (ip) => {
     }
 };
 
-module.exports = { fetchDataFromEndpoint }; // Exporter la fonction pour l'utiliser dans d'autres fichiers
+module.exports = { fetchDataFromEndpoint }; 

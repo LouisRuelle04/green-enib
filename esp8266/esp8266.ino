@@ -138,11 +138,9 @@ void connectToWiFi(const char* ssid, const char* password) {
 
   Serial.println("Connecté au Wi-Fi !");
 
+  // Send HTTP post to serverIP:8081/config
   sendIpToServer();
-  Serial.println(WiFi.localIP());
 
-  // Démarrer le serveur pour renvoyer les données
-  Serial.println("Adresse IP : ");
   server.on("/data", handleDataRequest);
 
   // Démarrer le serveur
@@ -179,7 +177,7 @@ void sendIpToServer() {
     WiFiClient client;
 
     // Construire l'URL du serveur
-    String serverUrl = String("http://") + wifiConfig.serverIp + "/config";
+    String serverUrl = String("http://") + wifiConfig.serverIp + ":8081/config";
 
     // Initialiser la requête HTTP
     http.begin(client, serverUrl);
@@ -225,7 +223,5 @@ void sendIpToServer() {
       // Fermer la connexion HTTP
       http.end();
     }
-    else {
-      Serial.println("Connexion Wi-Fi perdue");
-    }
   }
+}
