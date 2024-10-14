@@ -13,9 +13,9 @@ const { fetchDataFromEndpoint } = require('../utils/captorRequest'); // Importer
 
 // -------------- IP TABLE --------------------//
 //  ESP32 - 1 : température & humidité ambiante
-const ESP8266_1_IP = '192.168.1.23';
+const ESP8266_1_IP = '192.168.58.134';
 //  ESP32 - 2 : 
-const PICO_2_IP = '192.168.50.97';
+const ESP8266_2_IP = '192.168.58.89';
 //  ESP32 - 3 :
 const ESP32_3_IP = '';
 //  ESP32 - 4 :
@@ -23,7 +23,7 @@ const ESP32_4_IP = '';
 //  ESP32 - 5 :
 // -------------- END IP TABLE -----------------//
 
-const liste_ip = [ESP8266_1_IP]
+const liste_ip = [ESP8266_1_IP, ESP8266_2_IP]
 
 
 const jsonFile = {
@@ -51,7 +51,7 @@ io.on('connection', (socket) => {
         const data = await fetchDataFromEndpoint(ip);
         console.log(data)
         if (data) {
-            const JSONresponse_data = JSON.stringify({ name: 'Fleure de lune', temperature: data["temperature"], humidity: data["humidity"],soilHumidity: data["soilHumidity"], status: "ok" })
+            const JSONresponse_data = JSON.stringify({ name: data["espName"], temperature: data["temperature"], humidity: data["humidity"],soilHumidity: data["soilHumidity"], status: "ok" })
             socket.emit('getData', JSONresponse_data);
             console.log('Donnée envoyée:', JSONresponse_data);
         } else {
