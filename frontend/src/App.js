@@ -17,13 +17,15 @@ function App() {
   const [selectedPlant, setSelectedPlant] = useState(null);
   const [serverStatus, setServeurStatus] = useState(false);
   const [allPlants, setAllPlants] = useState([]);
+  const [data, setData] = useState([])
 
 
   useEffect(() => {
-    const newSocket = io("ws://192.168.224.230:8080/"); 
+    const newSocket = io("ws://localhost:8080/"); 
 
     function onConnect() {
       setServeurStatus(true)
+      newSocket.emit('getDataDaily')
 
     }
     function onDisconnect(){
@@ -55,11 +57,16 @@ function App() {
       });
     }
 
+    function onDailyData(data){
+      setData(data)
+    }
+
 
     newSocket.on('connect', onConnect);
     newSocket.on('disconnect', onDisconnect);
     newSocket.on('content', onGetAllPlants);
     newSocket.on('getData', onGetData);
+    newSocket.on('getDataDaily',onDailyData)
     
     
 
@@ -83,7 +90,7 @@ function App() {
 
   const content = () => {
     if(page === 'home') return (<HomePage data={allPlants} onCardClick={handleCardClick}></HomePage>)
-    else if (page === 'detail' && selectedPlant) return(<DetailPage plant={selectedPlant}></DetailPage>)
+    else if (page === 'detail' && selectedPlant) return(<DetailPage plant={selectedPlant} data={data}></DetailPage>)
   };
   
   return (

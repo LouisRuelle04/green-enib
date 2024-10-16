@@ -23,6 +23,8 @@ app.use(bodyParser.json());
 const { fetchDataFromEndpoint } = require('../utils/captorRequest');
 const { getAllCapteurIp } = require('../utils/getAllCapteurIp')
 const { setMesureCapteur } = require('../utils/setMesureCapteur')
+const { getDailyCapteur } = require('../utils/getDailyCapteur')
+const {getLastMesure} = require('../utils/getLastMesure')
 //-------- END IMPORT FUNCTION ------------//
 
 
@@ -45,7 +47,7 @@ const jsonFile = {
     type: "getAllPlantes", status: "ok", content:
 
         [
-            { name: "Fleure de lune", temperature: 0, humidity: 0, soilHumidity: 0, brightness: 0, image: "../assets/images/fleure_de_lune.jpg" },
+            { name: "Cocotier", temperature: 0, humidity: 0, soilHumidity: 0, brightness: 0, image: "../assets/images/fleure_de_lune.jpg" },
             { name: "Oxalis", temperature: 0, humidity: 0, soilHumidity: 0, brightness: 0, image: "../assets/images/fleure_test.jpg" },
             { name: "Aeschynanthus Rasta", temperature: 0, humidity: 0, soilHumidity: 0, brightness: 0, image: "../assets/images/Aeschynanthus_Rasta.jpg" },
             { name: "Aloe Humilis", temperature: 0, humidity: 0, soilHumidity: 0, brightness: 0, image: "../assets/images/Aloe_Humilis.jpg" },
@@ -64,46 +66,31 @@ io.on('connection', (socket) => {
     console.log('Un utilisateur est connecté', socket.id);
 
     socket.emit('content', jsonFile)
-    const fetchAndSendData = async (ip) => {
-        const data = await fetchDataFromEndpoint(ip);
+    
+    const intervalId = setInterval(async () => {
         try {
-            console.log("Tentative d'enregistrement des mesures", data);
-            // Appel de la fonction pour insérer les mesures dans la BDD
-            setMesureCapteur(db, ip, {
-                temperature: data.temperature,
-                humidity: data.humidity,
-                soilHumidity: data.soilHumidity,
-                lumens: data.lumens || 0 // Par défaut 0 si lumens n'est pas défini
-            });
-
-            console.log("Insertion réussie dans la BDD");
-
+            const data = await getLastMesure(db)
+            console.log("Dernière données récupéré")
+            console.log(data)
+            socket.emit('getLastMesure',data)
         } catch (error) {
             console.error('Erreur lors de l\'insertion des mesures :', error);
         }
-
-        console.log(data)
-
-        const JSONresponse_data = JSON.stringify({ name: data["espName"], temperature: data["temperature"], humidity: data["humidity"], soilHumidity: data["soilHumidity"], status: "ok" })
-        console.log('Donnée envoyée:', JSONresponse_data);
-        socket.emit('getData', JSONresponse_data);
-
-    };
-
-    const intervalId = setInterval(async () => {
-        try {
-            const liste_ip = await getAllCapteurIp(db);
-            if (Array.isArray(liste_ip)) {
-                for (let ip of liste_ip) {
-                    await fetchAndSendData(ip);
-                }
-            } else {
-                console.error('Liste des IPs non valide:', liste_ip);
-            }
-        } catch (error) {
-            console.error('Erreur lors de la récupération des IPs ou des données :', error);
-        }
     }, 5000);
+
+    socket.on('getDataDaily', () => {
+        console.log("Hey")
+        const getDailyMesure = async () => {
+            try {
+                console.log("Tentative de récupération des données journalière des capteurs");
+                const data = await getDailyCapteur(db)
+                socket.emit('getDataDaily',data)
+            } catch (error) {
+                console.error('Erreur lors de l\'insertion des mesures :', error);
+            }
+        }
+        getDailyMesure()
+    })
 
     socket.on('disconnect', () => {
         console.log("Un utilisateur s'est déconnecté", socket.handshake.address);

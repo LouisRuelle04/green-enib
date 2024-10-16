@@ -20,10 +20,10 @@ function HomePage(props) {
       <Container maxWidth='xl' sx={{ mt: 6 }}>
         <Grid2 container spacing={6}>
           {
-            capteurs.map((capteur) => (
-              <Grid2 display={'flex'} size={{ xs: 12, md: 3 }}>
+            capteurs.map((capteur, index) => (
+              <Grid2 display={'flex'} size={{ xs: 12, md: 3 }} key={index}>
 
-                <Cards data={capteur} onCardClick={props.onCardClick}></Cards>
+                <Cards data={capteur} onCardClick={props.onCardClick} ></Cards>
 
               </Grid2>
             ))
