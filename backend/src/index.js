@@ -28,9 +28,9 @@ const { setMesureCapteur } = require('../utils/setMesureCapteur')
 
 //-------------- IP TABLE --------------------//
 //  ESP32 - 1 : température & humidité ambiante
-const ESP8266_1_IP = '192.168.58.134';
+const ESP8266_1_IP = '192.168.1.27';
 //  ESP32 - 2 : 
-const ESP8266_2_IP = '192.168.58.89';
+const ESP8266_2_IP = '';
 //  ESP32 - 3 :
 const ESP32_3_IP = '';
 //  ESP32 - 4 :
@@ -38,7 +38,7 @@ const ESP32_4_IP = '';
 //  ESP32 - 5 :
 //-------------- END IP TABLE -----------------//
 
-const liste_ip = [ESP8266_1_IP, ESP8266_2_IP]
+const liste_ip = [ESP8266_1_IP]
 
 
 const jsonFile = {

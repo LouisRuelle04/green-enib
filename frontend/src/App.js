@@ -17,10 +17,11 @@ function App() {
   const [selectedPlant, setSelectedPlant] = useState(null);
   const [serverStatus, setServeurStatus] = useState(false);
   const [allPlants, setAllPlants] = useState([]);
+  const [graphDisplayed, setGraphDisplayed] = useState(false);
 
 
   useEffect(() => {
-    const newSocket = io("ws://192.168.0.31:8080/"); 
+    const newSocket = io("ws://localhost:8080/"); 
 
     function onConnect() {
       setServeurStatus(true)
@@ -77,13 +78,14 @@ function App() {
       setPage('detail');
   }
 
+
   const mainMenu = () => {
     setPage('home');
   }
 
   const content = () => {
     if(page === 'home') return (<HomePage data={allPlants} onCardClick={handleCardClick}></HomePage>)
-    else if (page === 'detail' && selectedPlant) return(<DetailPage plant={selectedPlant}></DetailPage>)
+    else if (page === 'detail' && selectedPlant) return(<DetailPage plant={selectedPlant} setGraphDisplayed={setGraphDisplayed}></DetailPage>)
   };
   
   return (
