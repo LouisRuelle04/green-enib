@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, CardMedia, Grid2, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Card, CardMedia, Grid2, Select, Typography, MenuItem } from '@mui/material';
 import Box from '@mui/material/Box';
 
 
@@ -13,6 +13,18 @@ export default function DetailPage(props) {
     let humidity = props.plant['humidity'];
     let brightness = props.plant['brightness'];
     let image = props.plant['image'];
+
+    const [time, setTime] = useState('day');
+
+    useEffect(()=> {
+        props.socket?.emit("getMesure", { time: time, value: props.plant['name'] })
+    },[])
+
+    const handleGetMesure = (event) => {
+        setTime(event.target.value)
+        console.log({ time: event.target.value, value: props.plant['name'] })
+        props.socket.emit("getMesure", { time: event.target.value, value: props.plant['name'] })
+    }
 
     return (
         <Grid2 container spacing={6}>
@@ -30,6 +42,21 @@ export default function DetailPage(props) {
                         <CircularProgressPlus color='green' variant='determinate' value={temperature} valuemax={100} unit={'°C'} label={'temperature'}></CircularProgressPlus>
                         <CircularProgressPlus color='#F1FF4E' variant='determinate' value={brightness} valuemax={2000} unit={'°C'} label={'Ensoleillement'}></CircularProgressPlus>
                     </Box>
+                </Box>
+                <Box sx={{mt:5}}>
+                    <Select
+                        labelId="select-time"
+                        id="select-time"
+                        value={time}
+                        label="Temps"
+                        onChange={handleGetMesure}
+                    >
+                        <MenuItem value={"day"}>day</MenuItem>
+                        <MenuItem value={"week"}>week</MenuItem>
+                        <MenuItem value={"month"}>month</MenuItem>
+                        <MenuItem value={"year"}>year</MenuItem>
+                        <MenuItem value={"all"}>all</MenuItem>
+                    </Select>
                 </Box>
             </Grid2>
             <Grid2 size={{ xs: 12, md: 12 }}>

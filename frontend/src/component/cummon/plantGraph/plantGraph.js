@@ -26,6 +26,7 @@ const data = [
 
 export default function PlantGraph({ data }) {
 
+    console.log(data)
 
 
     return (

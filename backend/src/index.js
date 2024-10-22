@@ -25,6 +25,8 @@ const { getAllCapteurIp } = require('../utils/getAllCapteurIp')
 const { setMesureCapteur } = require('../utils/setMesureCapteur')
 const { getDailyCapteur } = require('../utils/getDailyCapteur')
 const {getLastMesure} = require('../utils/getLastMesure')
+const {fetchAndSaveData} = require('../utils/fetchAndSaveData')
+const {getMesureFromPlant} = require('../utils/getMesureFromPlant')
 //-------- END IMPORT FUNCTION ------------//
 
 
@@ -64,37 +66,19 @@ const jsonFile = {
 
 io.on('connection', (socket) => {
     console.log('Un utilisateur est connecté', socket.id);
+    socket.emit('content',jsonFile)
 
-    socket.emit('content', jsonFile)
-    
-    const intervalId = setInterval(async () => {
-        try {
-            const data = await getLastMesure(db)
-            console.log("Dernière données récupéré")
-            console.log(data)
-            socket.emit('getLastMesure',data)
-        } catch (error) {
-            console.error('Erreur lors de l\'insertion des mesures :', error);
-        }
-    }, 5000);
-
-    socket.on('getDataDaily', () => {
-        console.log("Hey")
-        const getDailyMesure = async () => {
-            try {
-                console.log("Tentative de récupération des données journalière des capteurs");
-                const data = await getDailyCapteur(db)
-                socket.emit('getDataDaily',data)
-            } catch (error) {
-                console.error('Erreur lors de l\'insertion des mesures :', error);
-            }
-        }
-        getDailyMesure()
+    //GetMesure
+    // -> Récupéré les données soit dernière 24h, 7 dernier jours, mois entier en BDD + capteur ip/name
+    // -> renvoyé un event "GetMesured"
+    //switch par le selector
+    socket.on('getMesure', (value) => {
+        getMesureFromPlant(value.value,value.time,socket)
     })
+
 
     socket.on('disconnect', () => {
         console.log("Un utilisateur s'est déconnecté", socket.handshake.address);
-        clearInterval(intervalId);
     })
 })
 
@@ -102,6 +86,10 @@ io.on('connection', (socket) => {
 server.listen(portWebsocket, () => {
     console.log(`Le serveur écoute sur le port ${portWebsocket}`);
 });
+
+const intervalId = setInterval(() => {
+    fetchAndSaveData();
+}, 5000);
 
 
 
