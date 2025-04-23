@@ -30,7 +30,7 @@ services:
     ports:
       - "80:80"  # Port exposé pour NGINX (HTTP)
     environment:
-      - REACT_APP_WEBSOCKET_URL=ws://192.168.0.31:8080  # Connexion à la base de données MySQL
+      - REACT_APP_WEBSOCKET_URL=ws://backend:8080  # Connexion à la base de données MySQL
     restart: always
     depends_on:
       - backend  # Démarre le backend avant le frontend

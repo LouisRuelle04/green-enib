@@ -20,7 +20,9 @@ function App() {
 
 
   useEffect(() => {
-    const newSocket = io("ws://192.168.0.31:8080/"); 
+    const newSocket = io(process.env.REACT_APP_WEBSOCKET_URL, {
+      transports: ['websocket'], // forcé en WebSocket pur, évite le polling qui échoue
+    });
 
     function onConnect() {
       setServeurStatus(true)
@@ -31,7 +33,7 @@ function App() {
     }
 
     function onGetAllPlants(data){
-        setAllPlants(data['content'])
+        setAllPlants(data['content']) 
         console.log(allPlants)
     }
 

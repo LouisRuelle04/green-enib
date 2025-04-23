@@ -7,16 +7,17 @@ const { db } = require('../db/db');
 
 //--------- INIT WEBSOCKET SERVER -------------//
 const portWebsocket = 8080;
-const server = http.createServer();
-const io = socketIo(server, { cors: { origin: '*', methods: ['GET', 'POST'] } });
 //--------- END INIT WEBSOCKET SERVER -------------//
 
 
 //--------- INIT EXPRESS SERVER -------------//
-const portExpress = 8081;
+const portExpress = 8080;
 const app = express();
 app.use(bodyParser.json());
 //--------- END INIT EXPRESS SERVER -------------//
+
+const server = http.createServer(app);
+const io = socketIo(server, { cors: { origin: '*', methods: ['GET', 'POST'] } });
 
 
 //-------- IMPORT FUNCTION ------------//
@@ -112,7 +113,7 @@ io.on('connection', (socket) => {
 })
 
 
-server.listen(portWebsocket, () => {
+server.listen(portWebsocket,'0.0.0.0', () => {
     console.log(`Le serveur écoute sur le port ${portWebsocket}`);
 });
 
@@ -144,7 +145,3 @@ app.post('/config', (req, res) => {
     });
 });
 
-
-app.listen(portExpress, () => {
-    console.log(`Serveur Express démarré sur le port ${portExpress}`);
-});
